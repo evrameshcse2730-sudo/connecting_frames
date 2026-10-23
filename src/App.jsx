@@ -877,21 +877,7 @@ class App extends Component {
                {/* ==============================
             DURGA NAVARATRI FESTIVAL
         ============================== */}
-        <section className="navratri-section reveal" aria-labelledby="navratri-title">
-          <div className="navratri-banner">
-            <img
-              src="/durga-navratri.png"
-              alt="Nine forms of Durga for Navaratri"
-              loading="lazy"
-            />
-          </div>
-          <div className="navratri-message">
-            <p className="navratri-label">NINE NIGHTS OF DIVINE BLESSINGS</p>
-            <h2 id="navratri-title">Happy <span>Durga Navaratri</span></h2>
-            <p className="navratri-description">Nine Forms. Nine Powers. One Divine Energy.</p>
-            <div className="navratri-brand">Connecting Frames · Every frame tells a story ♡</div>
-          </div>
-        </section>
+     
 
         {/* ==============================
 
