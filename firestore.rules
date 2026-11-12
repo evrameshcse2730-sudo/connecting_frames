@@ -1,0 +1,54 @@
+rules_version = '2';
+
+// Paste this into Firebase console → Firestore Database → Rules → Publish.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // A user is an admin only if a document with their UID exists in /admins.
+    // Add admins by hand in the Firebase console; nobody can do it from the website.
+    function isAdmin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function str(v, min, max) {
+      return v is string && v.size() >= min && v.size() <= max;
+    }
+
+    // Website content: everyone can read, only admins can change.
+    match /site/content {
+      allow read: if true;
+      allow write: if isAdmin()
+        && request.resource.data.json is string
+        && request.resource.data.json.size() < 500000;
+    }
+
+    // Admin list: a signed-in user can only check their own entry.
+    match /admins/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    // Contact form messages: anyone can send one (with strict limits),
+    // only admins can read, mark read/unread, or delete.
+    match /messages/{id} {
+      allow create: if request.resource.data.keys().hasOnly(['name', 'email', 'service', 'message', 'read', 'createdAt'])
+        && request.resource.data.keys().hasAll(['name', 'email', 'service', 'message', 'read', 'createdAt'])
+        && str(request.resource.data.name, 1, 100)
+        && str(request.resource.data.email, 3, 200)
+        && str(request.resource.data.service, 0, 100)
+        && str(request.resource.data.message, 1, 5000)
+        && request.resource.data.read == false
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.createdAt < request.time + duration.value(5, 'm');
+      allow read, delete: if isAdmin();
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+    }
+
+    // Everything else is locked.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

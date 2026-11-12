@@ -8,6 +8,32 @@ Live at https://connectingframes.in (hosted on Netlify).
 - Contact form → [FormSubmit](https://formsubmit.co) (redirects to `/thanks.html`)
 - Showreel video hosted on Cloudinary
 
+- Admin panel at `/admin` (Firebase Auth + Firestore) — setup in [ADMIN_SETUP.md](ADMIN_SETUP.md)
+
+## Folder structure
+```
+src/
+  main.jsx               # picks the website or the admin panel by URL
+  Site.jsx               # loads saved content, then renders the website
+  App.jsx / App.css      # the website itself
+  content/
+    defaultContent.js    # all website text & items (fallback when Firebase is off)
+  lib/
+    firebaseConfig.js    # paste Firebase web config here
+    publicApi.js         # lightweight reads/writes for the public site (no SDK)
+    firebase.js          # full Firebase SDK, used only by /admin
+  admin/
+    AdminApp.jsx         # entry for /admin
+    Panel.jsx            # login gate + dashboard + section editor
+    Login.jsx, Inbox.jsx, SetupNotice.jsx
+    sections.js          # which fields are editable (drives the editor)
+    fields.jsx           # form inputs & list editor
+    validate.js          # checks before saving
+    admin.css
+firestore.rules          # database security rules (paste into Firebase console)
+public/                  # static files, Netlify _headers / _redirects
+```
+
 ## Scripts
 ```bash
 npm install
