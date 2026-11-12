@@ -6,11 +6,11 @@ import "./App.css";
 
 const STATS = [
 
-  { id: "projects", value: 40, suffix: "+", label: "Projects Cut & Shipped" },
+  { id: "projects", value: 40, suffix: "+", label: "Projects Cut & Shipped" },
 
-  { id: "years", value: 3, suffix: "+", label: "Years Behind the Timeline" },
+  { id: "years", value: 3, suffix: "+", label: "Years Behind the Timeline" },
 
-  { id: "clients", value: 25, suffix: "+", label: "Happy Collaborators" },
+  { id: "clients", value: 25, suffix: "+", label: "Happy Collaborators" },
 
 ];
 
@@ -18,1731 +18,1737 @@ const STATS = [
 
 class App extends Component {
 
-  constructor(props) {
+  constructor(props) {
 
-    super(props);
+    super(props);
 
-    this.state = {
+    this.state = {
 
-      isLoaded: false,
+      isLoaded: false,
 
-      showTopButton: false,
+      showTopButton: false,
 
-      counts: STATS.reduce((acc, s) => ({ ...acc, [s.id]: 0 }), {}),
+      counts: STATS.reduce((acc, s) => ({ ...acc, [s.id]: 0 }), {}),
 
-    };
+    };
 
 
 
-    this.cursorDot = React.createRef();
+    this.cursorDot = React.createRef();
 
-    this.cursorRing = React.createRef();
+    this.cursorRing = React.createRef();
 
-    this.portfolioLabel = React.createRef();
+    this.portfolioLabel = React.createRef();
 
 
 
-    this.statsAnimated = false;
+    this.statsAnimated = false;
 
-    this.mousePos = { x: 0, y: 0 };
+    this.mousePos = { x: 0, y: 0 };
 
-    this.ringPos = { x: 0, y: 0 };
+    this.ringPos = { x: 0, y: 0 };
 
-  }
+  }
 
 
 
-  componentDidMount() {
+  componentDidMount() {
 
-    // ==============================
+    // ==============================
 
-    // PRELOADER
+    // PRELOADER
 
-    // ==============================
+    // ==============================
 
-    this.preloadTimer = setTimeout(() => {
+    this.preloadTimer = setTimeout(() => {
 
-      this.setState({ isLoaded: true });
+      this.setState({ isLoaded: true });
 
-      document.body.classList.add("is-loaded");
+      document.body.classList.add("is-loaded");
 
-    }, 1400);
+    }, 1400);
 
 
 
-    // ==============================
+    // ==============================
 
-    // SCROLL REVEAL
+    // SCROLL REVEAL
 
-    // ==============================
+    // ==============================
 
-    this.revealObserver = new IntersectionObserver(
+    this.revealObserver = new IntersectionObserver(
 
-      (entries) => {
+      (entries) => {
 
-        entries.forEach((entry) => {
+        entries.forEach((entry) => {
 
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting) {
 
-            entry.target.classList.add("is-visible");
+            entry.target.classList.add("is-visible");
 
-            this.revealObserver.unobserve(entry.target);
+            this.revealObserver.unobserve(entry.target);
 
-          }
+          }
 
-        });
+        });
 
-      },
+      },
 
-      {
+      {
 
-        threshold: 0.12,
+        threshold: 0.12,
 
-        rootMargin: "0px 0px -60px 0px",
+        rootMargin: "0px 0px -60px 0px",
 
-      }
+      }
 
-    );
+    );
 
 
 
-    const revealElements = document.querySelectorAll(
+    const revealElements = document.querySelectorAll(
 
-      ".reveal, .reveal-left, .reveal-right, .reveal-scale"
+      ".reveal, .reveal-left, .reveal-right, .reveal-scale"
 
-    );
+    );
 
 
 
-    revealElements.forEach((element) => {
+    revealElements.forEach((element) => {
 
-      this.revealObserver.observe(element);
+      this.revealObserver.observe(element);
 
-    });
+    });
 
 
 
-    // ==============================
+    // ==============================
 
-    // STAT COUNTERS (animate once, on view)
+    // STAT COUNTERS (animate once, on view)
 
-    // ==============================
+    // ==============================
 
-    this.statsObserver = new IntersectionObserver(
+    this.statsObserver = new IntersectionObserver(
 
-      (entries) => {
+      (entries) => {
 
-        entries.forEach((entry) => {
+        entries.forEach((entry) => {
 
-          if (entry.isIntersecting && !this.statsAnimated) {
+          if (entry.isIntersecting && !this.statsAnimated) {
 
-            this.statsAnimated = true;
+            this.statsAnimated = true;
 
-            this.animateStats();
+            this.animateStats();
 
-            this.statsObserver.disconnect();
+            this.statsObserver.disconnect();
 
-          }
+          }
 
-        });
+        });
 
-      },
+      },
 
-      { threshold: 0.4 }
+      { threshold: 0.4 }
 
-    );
+    );
 
 
 
-    if (this.statsSection) {
+    if (this.statsSection) {
 
-      this.statsObserver.observe(this.statsSection);
+      this.statsObserver.observe(this.statsSection);
 
-    }
+    }
 
 
 
-    // ==============================
+    // ==============================
 
-    // SCROLL PROGRESS + NAVBAR + PARALLAX + BACK-TO-TOP
+    // SCROLL PROGRESS + NAVBAR + PARALLAX + BACK-TO-TOP
 
-    // ==============================
+    // ==============================
 
-    this.handleScroll = () => {
+    this.handleScroll = () => {
 
-      const scrollTop = window.scrollY;
+      const scrollTop = window.scrollY;
 
 
 
-      const documentHeight =
+      const documentHeight =
 
-        document.documentElement.scrollHeight - window.innerHeight;
+        document.documentElement.scrollHeight - window.innerHeight;
 
 
 
-      const progress =
+      const progress =
 
-        documentHeight > 0 ? (scrollTop / documentHeight) * 100 : 0;
+        documentHeight > 0 ? (scrollTop / documentHeight) * 100 : 0;
 
 
 
-      const progressBar = document.querySelector(".scroll-progress");
+      const progressBar = document.querySelector(".scroll-progress");
 
 
 
-      if (progressBar) {
+      if (progressBar) {
 
-        progressBar.style.width = `${progress}%`;
+        progressBar.style.width = `${progress}%`;
 
-      }
+      }
 
 
 
-      const navbar = document.querySelector(".navbar");
+      const navbar = document.querySelector(".navbar");
 
 
 
-      if (navbar) {
+      if (navbar) {
 
-        if (scrollTop > 40) {
+        if (scrollTop > 40) {
 
-          navbar.classList.add("navbar-scrolled");
+          navbar.classList.add("navbar-scrolled");
 
-        } else {
+        } else {
 
-          navbar.classList.remove("navbar-scrolled");
+          navbar.classList.remove("navbar-scrolled");
 
-        }
+        }
 
-      }
+      }
 
 
 
-      if (window.innerWidth > 800 && this.heroArt) {
+      if (window.innerWidth > 800 && this.heroArt) {
 
-        const heroRect = this.heroArt.parentElement.getBoundingClientRect();
+        const heroRect = this.heroArt.parentElement.getBoundingClientRect();
 
-        const offset = Math.max(-50, Math.min(50, -heroRect.top * 0.08));
+        const offset = Math.max(-50, Math.min(50, -heroRect.top * 0.08));
 
-        this.heroArt.style.setProperty("--scroll-parallax", `${offset}px`);
+        this.heroArt.style.setProperty("--scroll-parallax", `${offset}px`);
 
-      }
+      }
 
 
 
-      this.setState((prev) => {
+      this.setState((prev) => {
 
-        const shouldShow = scrollTop > 700;
+        const shouldShow = scrollTop > 700;
 
-        if (shouldShow === prev.showTopButton) return null;
+        if (shouldShow === prev.showTopButton) return null;
 
-        return { showTopButton: shouldShow };
+        return { showTopButton: shouldShow };
 
-      });
+      });
 
-    };
+    };
 
 
 
-    window.addEventListener("scroll", this.handleScroll, { passive: true });
+    window.addEventListener("scroll", this.handleScroll, { passive: true });
 
-    this.handleScroll();
+    this.handleScroll();
 
 
 
-    // ==============================
+    // ==============================
 
-    // HERO MOUSE PARALLAX
+    // HERO MOUSE PARALLAX
 
-    // ==============================
+    // ==============================
 
-    this.handleHeroMouseMove = (event) => {
+    this.handleHeroMouseMove = (event) => {
 
-      if (window.innerWidth <= 800) return;
+      if (window.innerWidth <= 800) return;
 
 
 
-      const x = (event.clientX / window.innerWidth - 0.5) * 2;
+      const x = (event.clientX / window.innerWidth - 0.5) * 2;
 
-      const y = (event.clientY / window.innerHeight - 0.5) * 2;
+      const y = (event.clientY / window.innerHeight - 0.5) * 2;
 
 
 
-      const sun = document.querySelector(".sun");
+      const sun = document.querySelector(".sun");
 
-      const mountain = document.querySelector(".mountain");
+      const mountain = document.querySelector(".mountain");
 
-      const film = document.querySelector(".film-strip");
+      const film = document.querySelector(".film-strip");
 
 
 
-      if (sun) {
+      if (sun) {
 
-        sun.style.transform = `translate(${x * 12}px, ${y * 12}px)`;
+        sun.style.transform = `translate(${x * 12}px, ${y * 12}px)`;
 
-      }
+      }
 
-      if (mountain) {
+      if (mountain) {
 
-        mountain.style.transform = `translate(${x * -8}px, ${y * -8}px)`;
+        mountain.style.transform = `translate(${x * -8}px, ${y * -8}px)`;
 
-      }
+      }
 
-      if (film) {
+      if (film) {
 
-        film.style.transform = `translate(${x * 8}px, ${y * 8}px) rotate(20deg)`;
+        film.style.transform = `translate(${x * 8}px, ${y * 8}px) rotate(20deg)`;
 
-      }
+      }
 
-    };
+    };
 
 
 
-    if (this.hero) {
+    if (this.hero) {
 
-      this.hero.addEventListener("mousemove", this.handleHeroMouseMove);
+      this.hero.addEventListener("mousemove", this.handleHeroMouseMove);
 
-    }
+    }
 
 
 
-    // ==============================
+    // ==============================
 
-    // SERVICE CARD TILT + SPOTLIGHT
+    // SERVICE CARD TILT + SPOTLIGHT
 
-    // ==============================
+    // ==============================
 
-    this.serviceCards = document.querySelectorAll(".service-card");
+    this.serviceCards = document.querySelectorAll(".service-card");
 
 
 
-    this.serviceCards.forEach((card) => {
+    this.serviceCards.forEach((card) => {
 
-      const handleMove = (event) => {
+      const handleMove = (event) => {
 
-        const rect = card.getBoundingClientRect();
+        const rect = card.getBoundingClientRect();
 
-        const x = event.clientX - rect.left;
+        const x = event.clientX - rect.left;
 
-        const y = event.clientY - rect.top;
+        const y = event.clientY - rect.top;
 
 
 
-        card.style.setProperty("--spot-x", `${x}px`);
+        card.style.setProperty("--spot-x", `${x}px`);
 
-        card.style.setProperty("--spot-y", `${y}px`);
+        card.style.setProperty("--spot-y", `${y}px`);
 
 
 
-        if (window.innerWidth <= 800) return;
+        if (window.innerWidth <= 800) return;
 
 
 
-        const rotateX = (y / rect.height - 0.5) * -5;
+        const rotateX = (y / rect.height - 0.5) * -5;
 
-        const rotateY = (x / rect.width - 0.5) * 5;
+        const rotateY = (x / rect.width - 0.5) * 5;
 
 
 
-        card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+        card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
 
-      };
+      };
 
 
 
-      const handleLeave = () => {
+      const handleLeave = () => {
 
-        card.style.transform = "";
+        card.style.transform = "";
 
-      };
+      };
 
 
 
-      card.addEventListener("mousemove", handleMove);
+      card.addEventListener("mousemove", handleMove);
 
-      card.addEventListener("mouseleave", handleLeave);
+      card.addEventListener("mouseleave", handleLeave);
 
 
 
-      card._handleMove = handleMove;
+      card._handleMove = handleMove;
 
-      card._handleLeave = handleLeave;
+      card._handleLeave = handleLeave;
 
-    });
+    });
 
 
 
-    // ==============================
+    // ==============================
 
-    // MAGNETIC BUTTONS
+    // MAGNETIC BUTTONS
 
-    // ==============================
+    // ==============================
 
-    this.magneticEls = document.querySelectorAll("[data-magnetic]");
+    this.magneticEls = document.querySelectorAll("[data-magnetic]");
 
 
 
-    this.magneticEls.forEach((el) => {
+    this.magneticEls.forEach((el) => {
 
-      const strength = 22;
+      const strength = 22;
 
 
 
-      const handleMove = (event) => {
+      const handleMove = (event) => {
 
-        if (window.innerWidth <= 800) return;
+        if (window.innerWidth <= 800) return;
 
-        const rect = el.getBoundingClientRect();
+        const rect = el.getBoundingClientRect();
 
-        const x = event.clientX - rect.left - rect.width / 2;
+        const x = event.clientX - rect.left - rect.width / 2;
 
-        const y = event.clientY - rect.top - rect.height / 2;
+        const y = event.clientY - rect.top - rect.height / 2;
 
 
 
-        el.style.transform = `translate(${(x / rect.width) * strength}px, ${
+        el.style.transform = `translate(${(x / rect.width) * strength}px, ${
 
-          (y / rect.height) * strength
+          (y / rect.height) * strength
 
-        }px)`;
+        }px)`;
 
-      };
+      };
 
 
 
-      const handleLeave = () => {
+      const handleLeave = () => {
 
-        el.style.transform = "";
+        el.style.transform = "";
 
-      };
+      };
 
 
 
-      el.addEventListener("mousemove", handleMove);
+      el.addEventListener("mousemove", handleMove);
 
-      el.addEventListener("mouseleave", handleLeave);
+      el.addEventListener("mouseleave", handleLeave);
 
 
 
-      el._handleMove = handleMove;
+      el._handleMove = handleMove;
 
-      el._handleLeave = handleLeave;
+      el._handleLeave = handleLeave;
 
-    });
+    });
 
 
 
-    // ==============================
+    // ==============================
 
-    // CUSTOM CURSOR
+    // CUSTOM CURSOR
 
-    // ==============================
+    // ==============================
 
-    this.hasFinePointer =
+    this.hasFinePointer =
 
-      window.matchMedia &&
+      window.matchMedia &&
 
-      window.matchMedia("(pointer: fine)").matches &&
+      window.matchMedia("(pointer: fine)").matches &&
 
-      window.innerWidth > 800;
+      window.innerWidth > 800;
 
 
 
-    if (this.hasFinePointer) {
+    if (this.hasFinePointer) {
 
-      document.body.classList.add("has-custom-cursor");
+      document.body.classList.add("has-custom-cursor");
 
 
 
-      this.handleCursorMove = (event) => {
+      this.handleCursorMove = (event) => {
 
-        this.mousePos = { x: event.clientX, y: event.clientY };
+        this.mousePos = { x: event.clientX, y: event.clientY };
 
-        if (this.cursorDot.current) {
+        if (this.cursorDot.current) {
 
-          this.cursorDot.current.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`;
+          this.cursorDot.current.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`;
 
-        }
+        }
 
-      };
+      };
 
 
 
-      window.addEventListener("mousemove", this.handleCursorMove, {
+      window.addEventListener("mousemove", this.handleCursorMove, {
 
-        passive: true,
+        passive: true,
 
-      });
+      });
 
 
 
-      this.cursorRaf = () => {
+      this.cursorRaf = () => {
 
-        this.ringPos.x += (this.mousePos.x - this.ringPos.x) * 0.16;
+        this.ringPos.x += (this.mousePos.x - this.ringPos.x) * 0.16;
 
-        this.ringPos.y += (this.mousePos.y - this.ringPos.y) * 0.16;
+        this.ringPos.y += (this.mousePos.y - this.ringPos.y) * 0.16;
 
 
 
-        if (this.cursorRing.current) {
+        if (this.cursorRing.current) {
 
-          this.cursorRing.current.style.transform = `translate(${this.ringPos.x}px, ${this.ringPos.y}px)`;
+          this.cursorRing.current.style.transform = `translate(${this.ringPos.x}px, ${this.ringPos.y}px)`;
 
-        }
+        }
 
 
 
-        this.cursorRafId = requestAnimationFrame(this.cursorRaf);
+        this.cursorRafId = requestAnimationFrame(this.cursorRaf);
 
-      };
+      };
 
-      this.cursorRafId = requestAnimationFrame(this.cursorRaf);
+      this.cursorRafId = requestAnimationFrame(this.cursorRaf);
 
 
 
-      this.cursorHoverTargets = document.querySelectorAll(
+      this.cursorHoverTargets = document.querySelectorAll(
 
-        "a, button, .service-card, input, textarea, select"
+        "a, button, .service-card, input, textarea, select"
 
-      );
+      );
 
 
 
-      this.addCursorHover = () =>
+      this.addCursorHover = () =>
 
-        document.body.classList.add("cursor-hover");
+        document.body.classList.add("cursor-hover");
 
-      this.removeCursorHover = () =>
+      this.removeCursorHover = () =>
 
-        document.body.classList.remove("cursor-hover");
+        document.body.classList.remove("cursor-hover");
 
 
 
-      this.cursorHoverTargets.forEach((el) => {
+      this.cursorHoverTargets.forEach((el) => {
 
-        el.addEventListener("mouseenter", this.addCursorHover);
+        el.addEventListener("mouseenter", this.addCursorHover);
 
-        el.addEventListener("mouseleave", this.removeCursorHover);
+        el.addEventListener("mouseleave", this.removeCursorHover);
 
-      });
+      });
 
-    }
+    }
 
 
 
-    // ==============================
+    // ==============================
 
-    // PORTFOLIO HOVER LABEL
+    // PORTFOLIO HOVER LABEL
 
-    // ==============================
+    // ==============================
 
-    this.portfolioItems = document.querySelectorAll(
+    this.portfolioItems = document.querySelectorAll(
 
-      "[data-portfolio-label]"
+      "[data-portfolio-label]"
 
-    );
+    );
 
 
 
-    this.portfolioItems.forEach((item) => {
+    this.portfolioItems.forEach((item) => {
 
-      const labelText = item.getAttribute("data-portfolio-label");
+      const labelText = item.getAttribute("data-portfolio-label");
 
 
 
-      const handleEnter = () => {
+      const handleEnter = () => {
 
-        if (window.innerWidth <= 800) return;
+        if (window.innerWidth <= 800) return;
 
-        if (this.portfolioLabel.current) {
+        if (this.portfolioLabel.current) {
 
-          this.portfolioLabel.current.textContent = labelText;
+          this.portfolioLabel.current.textContent = labelText;
 
-          this.portfolioLabel.current.classList.add("is-active");
+          this.portfolioLabel.current.classList.add("is-active");
 
-        }
+        }
 
-      };
+      };
 
 
 
-      const handleMove = (event) => {
+      const handleMove = (event) => {
 
-        if (window.innerWidth <= 800) return;
+        if (window.innerWidth <= 800) return;
 
-        if (this.portfolioLabel.current) {
+        if (this.portfolioLabel.current) {
 
-          this.portfolioLabel.current.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`;
+          this.portfolioLabel.current.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`;
 
-        }
+        }
 
-      };
+      };
 
 
 
-      const handleLeave = () => {
+      const handleLeave = () => {
 
-        if (this.portfolioLabel.current) {
+        if (this.portfolioLabel.current) {
 
-          this.portfolioLabel.current.classList.remove("is-active");
+          this.portfolioLabel.current.classList.remove("is-active");
 
-        }
+        }
 
-      };
+      };
 
 
 
-      item.addEventListener("mouseenter", handleEnter);
+      item.addEventListener("mouseenter", handleEnter);
 
-      item.addEventListener("mousemove", handleMove);
+      item.addEventListener("mousemove", handleMove);
 
-      item.addEventListener("mouseleave", handleLeave);
+      item.addEventListener("mouseleave", handleLeave);
 
 
 
-      item._handleEnter = handleEnter;
+      item._handleEnter = handleEnter;
 
-      item._handleMove = handleMove;
+      item._handleMove = handleMove;
 
-      item._handleLeave = handleLeave;
+      item._handleLeave = handleLeave;
 
-    });
+    });
 
-  }
+  }
 
 
 
-  animateStats() {
+  animateStats() {
 
-    const duration = 1600;
+    const duration = 1600;
 
-    const start = performance.now();
+    const start = performance.now();
 
 
 
-    const tick = (now) => {
+    const tick = (now) => {
 
-      const progress = Math.min((now - start) / duration, 1);
+      const progress = Math.min((now - start) / duration, 1);
 
-      const eased = 1 - Math.pow(1 - progress, 3);
+      const eased = 1 - Math.pow(1 - progress, 3);
 
 
 
-      const nextCounts = {};
+      const nextCounts = {};
 
-      STATS.forEach((s) => {
+      STATS.forEach((s) => {
 
-        nextCounts[s.id] = Math.round(s.value * eased);
+        nextCounts[s.id] = Math.round(s.value * eased);
 
-      });
+      });
 
 
 
-      this.setState({ counts: nextCounts });
+      this.setState({ counts: nextCounts });
 
 
 
-      if (progress < 1) {
+      if (progress < 1) {
 
-        this.statsRaf = requestAnimationFrame(tick);
+        this.statsRaf = requestAnimationFrame(tick);
 
-      }
+      }
 
-    };
+    };
 
 
 
-    this.statsRaf = requestAnimationFrame(tick);
+    this.statsRaf = requestAnimationFrame(tick);
 
-  }
+  }
 
 
 
-  componentWillUnmount() {
+  componentWillUnmount() {
 
-    clearTimeout(this.preloadTimer);
+    clearTimeout(this.preloadTimer);
 
 
 
-    if (this.revealObserver) this.revealObserver.disconnect();
+    if (this.revealObserver) this.revealObserver.disconnect();
 
-    if (this.statsObserver) this.statsObserver.disconnect();
+    if (this.statsObserver) this.statsObserver.disconnect();
 
-    if (this.statsRaf) cancelAnimationFrame(this.statsRaf);
+    if (this.statsRaf) cancelAnimationFrame(this.statsRaf);
 
-    if (this.cursorRafId) cancelAnimationFrame(this.cursorRafId);
+    if (this.cursorRafId) cancelAnimationFrame(this.cursorRafId);
 
 
 
-    if (this.handleScroll) {
+    if (this.handleScroll) {
 
-      window.removeEventListener("scroll", this.handleScroll);
+      window.removeEventListener("scroll", this.handleScroll);
 
-    }
+    }
 
 
 
-    if (this.hero && this.handleHeroMouseMove) {
+    if (this.hero && this.handleHeroMouseMove) {
 
-      this.hero.removeEventListener("mousemove", this.handleHeroMouseMove);
+      this.hero.removeEventListener("mousemove", this.handleHeroMouseMove);
 
-    }
+    }
 
 
 
-    if (this.serviceCards) {
+    if (this.serviceCards) {
 
-      this.serviceCards.forEach((card) => {
+      this.serviceCards.forEach((card) => {
 
-        card.removeEventListener("mousemove", card._handleMove);
+        card.removeEventListener("mousemove", card._handleMove);
 
-        card.removeEventListener("mouseleave", card._handleLeave);
+        card.removeEventListener("mouseleave", card._handleLeave);
 
-      });
+      });
 
-    }
+    }
 
 
 
-    if (this.magneticEls) {
+    if (this.magneticEls) {
 
-      this.magneticEls.forEach((el) => {
+      this.magneticEls.forEach((el) => {
 
-        el.removeEventListener("mousemove", el._handleMove);
+        el.removeEventListener("mousemove", el._handleMove);
 
-        el.removeEventListener("mouseleave", el._handleLeave);
+        el.removeEventListener("mouseleave", el._handleLeave);
 
-      });
+      });
 
-    }
+    }
 
 
 
-    if (this.handleCursorMove) {
+    if (this.handleCursorMove) {
 
-      window.removeEventListener("mousemove", this.handleCursorMove);
+      window.removeEventListener("mousemove", this.handleCursorMove);
 
-    }
+    }
 
 
 
-    if (this.cursorHoverTargets) {
+    if (this.cursorHoverTargets) {
 
-      this.cursorHoverTargets.forEach((el) => {
+      this.cursorHoverTargets.forEach((el) => {
 
-        el.removeEventListener("mouseenter", this.addCursorHover);
+        el.removeEventListener("mouseenter", this.addCursorHover);
 
-        el.removeEventListener("mouseleave", this.removeCursorHover);
+        el.removeEventListener("mouseleave", this.removeCursorHover);
 
-      });
+      });
 
-    }
+    }
 
 
 
-    if (this.portfolioItems) {
+    if (this.portfolioItems) {
 
-      this.portfolioItems.forEach((item) => {
+      this.portfolioItems.forEach((item) => {
 
-        item.removeEventListener("mouseenter", item._handleEnter);
+        item.removeEventListener("mouseenter", item._handleEnter);
 
-        item.removeEventListener("mousemove", item._handleMove);
+        item.removeEventListener("mousemove", item._handleMove);
 
-        item.removeEventListener("mouseleave", item._handleLeave);
+        item.removeEventListener("mouseleave", item._handleLeave);
 
-      });
+      });
 
-    }
+    }
 
-  }
+  }
 
 
 
-  scrollToTop = () => {
+  scrollToTop = () => {
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
-  };
+  };
 
 
 
-  render() {
+  render() {
 
-    const { isLoaded, showTopButton, counts } = this.state;
+    const { isLoaded, showTopButton, counts } = this.state;
 
 
 
-    return (
+    return (
 
-      <div className="app">
+      <div className="app">
 
-        {/* ==============================
+        {/* ==============================
 
-            PRELOADER
+            PRELOADER
 
-        ============================== */}
-
-        <div className={`preloader ${isLoaded ? "preloader-done" : ""}`}>
-
-          <div className="preloader-mark">
-
-            <svg viewBox="0 0 120 120" className="preloader-ring">
-
-              <circle cx="60" cy="60" r="52" />
-
-            </svg>
-
-            <span>CF</span>
-
-          </div>
-
-          <p className="preloader-text">connecting frames</p>
-
-        </div>
-
-
-
-        {/* ==============================
-
-            FILM GRAIN OVERLAY
-
-        ============================== */}
-
-        <div className="film-grain" aria-hidden="true"></div>
-
-
-
-        {/* ==============================
-
-            CUSTOM CURSOR
-
-        ============================== */}
-
-        <div className="cursor-dot" ref={this.cursorDot}></div>
-
-        <div className="cursor-ring" ref={this.cursorRing}></div>
-
-        <div className="portfolio-cursor-label" ref={this.portfolioLabel}></div>
-
-
-
-        {/* ==============================
-
-            SCROLL PROGRESS
-
-        ============================== */}
-
-        <div className="scroll-progress"></div>
-
-
-
-        {/* ==============================
-
-            NAVBAR
-
-        ============================== */}
-
-        <nav className="navbar reveal">
-
-          <div className="logo-wrap">
-
-            <img
-
-              className="LOGO"
-
-              src="my logo.png"
-
-              alt="Connecting Frames"
-
-            />
-
-          </div>
-
-
-
-          <div className="nav-links">
-
-            <a href="#about">About</a>
-
-            <a href="#services">Services</a>
-
-            <a href="#work">Work</a>
-
-            <a href="#contact">Contact</a>
-
-          </div>
-
-        </nav>
-
-               {/* ==============================
-            DURGA NAVARATRI FESTIVAL
         ============================== */}
-     
 
-        {/* ==============================
+        <div className={`preloader ${isLoaded ? "preloader-done" : ""}`}>
 
-            HERO
+          <div className="preloader-mark">
 
-        ============================== */}
+            <svg viewBox="0 0 120 120" className="preloader-ring">
 
-        <section
+              <circle cx="60" cy="60" r="52" />
 
-          className="hero"
+            </svg>
 
-          ref={(element) => {
+            <span>CF</span>
 
-            this.hero = element;
+          </div>
 
-          }}
+          <p className="preloader-text">connecting frames</p>
 
-        >
+        </div>
 
-          <div className="hero-leaves left-leaves">❦</div>
 
 
+        {/* ==============================
 
-          <div className="hero-content">
+            FILM GRAIN OVERLAY
 
-            <p className="small-title reveal">
+        ============================== */}
 
-              Video editor and web creator based in Telangana
+        <div className="film-grain" aria-hidden="true"></div>
 
-            </p>
 
 
+        {/* ==============================
 
-            <h1 className="hero-title split-reveal">
+            CUSTOM CURSOR
 
-              {"Connecting".split("").map((char, i) => (
+        ============================== */}
 
-                <span
+        <div className="cursor-dot" ref={this.cursorDot}></div>
 
-                  key={`c-${i}`}
+        <div className="cursor-ring" ref={this.cursorRing}></div>
 
-                  className="split-char"
+        <div className="portfolio-cursor-label" ref={this.portfolioLabel}></div>
 
-                  style={{ transitionDelay: `${0.25 + i * 0.045}s` }}
 
-                >
 
-                  {char}
+        {/* ==============================
 
-                </span>
+            SCROLL PROGRESS
 
-              ))}
+        ============================== */}
 
-              <br />
+        <div className="scroll-progress"></div>
 
-              <span className="script">
 
-                {"Frames".split("").map((char, i) => (
 
-                  <span
+        {/* ==============================
 
-                    key={`f-${i}`}
+            NAVBAR
 
-                    className="split-char"
+        ============================== */}
 
-                    style={{
+        <nav className="navbar reveal">
 
-                      transitionDelay: `${0.25 + (10 + i) * 0.045}s`,
+          <div className="logo-wrap">
 
-                    }}
+            <img
 
-                  >
+              className="LOGO"
 
-                    {char}
+              src="/logo.webp"
 
-                  </span>
+              alt="Connecting Frames"
 
-                ))}
+            />
 
-              </span>
+          </div>
 
-            </h1>
 
 
+          <div className="nav-links">
 
-            <div className="hand-line reveal-scale"></div>
+            <a href="#about">About</a>
 
+            <a href="#services">Services</a>
 
+            <a href="#work">Work</a>
 
-            <p className="handwritten reveal">every frame tells a story ♡</p>
+            <a href="#contact">Contact</a>
 
+          </div>
 
+        </nav>
 
-            <p className="intro reveal">
 
-              I create meaningful videos and thoughtful digital experiences —
+        {/* ==============================
 
-              from cinematic edits to modern websites, every detail is
+            HERO
 
-              crafted to tell a story.
+        ============================== */}
 
-            </p>
+        <section
 
+          className="hero"
 
+          ref={(element) => {
 
-            <a href="#work" className="sketch-btn reveal" data-magnetic="true">
+            this.hero = element;
 
-              <span>Explore My Work</span>
+          }}
 
-              <em>→</em>
+        >
 
-            </a>
+          <div className="hero-leaves left-leaves">❦</div>
 
-          </div>
 
 
+          <div className="hero-content">
 
-          <div
+            <p className="small-title reveal">
 
-            className="hero-art reveal-scale"
+              Video editor and web creator based in Telangana
 
-            ref={(element) => {
+            </p>
 
-              this.heroArt = element;
 
-            }}
 
-          >
+            <h1 className="hero-title split-reveal">
 
-            <div className="sketch-circle">
+              {"Connecting".split("").map((char, i) => (
 
-              <img
+                <span
 
-                src="my logo.png"
+                  key={`c-${i}`}
 
-                alt="Connecting Frames"
+                  className="split-char"
 
-              />
+                  style={{ transitionDelay: `${0.25 + i * 0.045}s` }}
 
-            </div>
+                >
 
+                  {char}
 
+                </span>
 
-            <div className="sun"></div>
+              ))}
 
-            <div className="mountain">△ △ △</div>
+              <br />
 
-            <div className="film-strip">🎞</div>
+              <span className="script">
 
-          </div>
+                {"Frames".split("").map((char, i) => (
 
-        </section>
+                  <span
+
+                    key={`f-${i}`}
+
+                    className="split-char"
+
+                    style={{
+
+                      transitionDelay: `${0.25 + (10 + i) * 0.045}s`,
+
+                    }}
+
+                  >
+
+                    {char}
+
+                  </span>
+
+                ))}
+
+              </span>
+
+            </h1>
+
+
+
+            <div className="hand-line reveal-scale"></div>
+
+
+
+            <p className="handwritten reveal">every frame tells a story ♡</p>
+
+
+
+            <p className="intro reveal">
+
+              I create meaningful videos and thoughtful digital experiences —
+
+              from cinematic edits to modern websites, every detail is
+
+              crafted to tell a story.
+
+            </p>
+
+
+
+            <a href="#work" className="sketch-btn reveal" data-magnetic="true">
+
+              <span>Explore My Work</span>
+
+              <em>→</em>
+
+            </a>
+
+          </div>
+
+
+
+          <div
+
+            className="hero-art reveal-scale"
+
+            ref={(element) => {
+
+              this.heroArt = element;
+
+            }}
+
+          >
+
+            <div className="sketch-circle">
+
+              <img
+
+                src="/logo.webp"
+
+                alt="Connecting Frames"
+
+              />
+
+            </div>
+
+
+
+            <div className="sun"></div>
+
+            <div className="mountain">△ △ △</div>
+
+            <div className="film-strip">🎞</div>
+
+          </div>
+
+        </section>
 
 
 {/* ==============================
 
-            MARQUEE STRIP
+            MARQUEE STRIP
 
-        ============================== */}
+        ============================== */}
 
-        <div className="marquee-strip">
+        <div className="marquee-strip">
 
-          <div className="marquee-track">
+          <div className="marquee-track">
 
-            {Array(2)
+            {Array(2)
 
-              .fill(null)
+              .fill(null)
 
-              .map((_, loopIndex) => (
+              .map((_, loopIndex) => (
 
-                <div className="marquee-group" key={loopIndex} aria-hidden={loopIndex === 1}>
+                <div className="marquee-group" key={loopIndex} aria-hidden={loopIndex === 1}>
 
-                  <span>Reel Editing</span>
+                  <span>Reel Editing</span>
 
-                  <span className="marquee-dot">✦</span>
+                  <span className="marquee-dot">✦</span>
 
-                  <span>Colour Grading</span>
+                  <span>Colour Grading</span>
 
-                  <span className="marquee-dot">✦</span>
+                  <span className="marquee-dot">✦</span>
 
-                  <span>Web Development</span>
+                  <span>Web Development</span>
 
-                  <span className="marquee-dot">✦</span>
+                  <span className="marquee-dot">✦</span>
 
-                  <span>Motion Graphics</span>
+                  <span>Motion Graphics</span>
 
-                  <span className="marquee-dot">✦</span>
+                  <span className="marquee-dot">✦</span>
 
-                  <span>Visual Storytelling</span>
+                  <span>Visual Storytelling</span>
 
-                  <span className="marquee-dot">✦</span>
+                  <span className="marquee-dot">✦</span>
 
-                </div>
+                </div>
 
-              ))}
+              ))}
 
-          </div>
+          </div>
 
-        </div>
+        </div>
 
 
 
-        {/* ==============================
+        {/* ==============================
 
-            STORY
+            STORY
 
-        ============================== */}
+        ============================== */}
 
-        <section className="story-line">
+        <section className="story-line">
 
-          <span className="reveal-scale">✦</span>
+          <span className="reveal-scale">✦</span>
 
 
 
-          <p className="reveal">Some stories are not just watched.</p>
+          <p className="reveal">Some stories are not just watched.</p>
 
 
 
-          <h2 className="reveal">
+          <h2 className="reveal">
 
-            They're <span>felt.</span>
+            They're <span>felt.</span>
 
-          </h2>
+          </h2>
 
 
 
-          <div className="camera-icon reveal-scale">◉</div>
+          <div className="camera-icon reveal-scale">◉</div>
 
-        </section>
+        </section>
 
 
 
-        {/* ==============================
+        {/* ==============================
 
-            ABOUT
+            ABOUT
 
-        ============================== */}
+        ============================== */}
 
-        <section className="about" id="about">
+        <section className="about" id="about">
 
-          <div className="section-number reveal-left">01</div>
+          <div className="section-number reveal-left">01</div>
 
 
 
-          <div className="about-content">
+          <div className="about-content">
 
-            <p className="section-label reveal">a little about me</p>
+            <p className="section-label reveal">a little about me</p>
 
 
 
-            <h2 className="reveal">
+            <h2 className="reveal">
 
-              From frames to
+              From frames to
 
-              <br />
+              <br />
 
-              <span>digital stories.</span>
+              <span>digital stories.</span>
 
-            </h2>
+            </h2>
 
 
 
-            <p className="reveal">
+            <p className="reveal">
 
-              I work across video editing and website development,
+              I work across video editing and website development,
 
-              transforming ideas into engaging visual stories and thoughtful
+              transforming ideas into engaging visual stories and thoughtful
 
-              digital experiences. Whether it's a cinematic reel or a
+              digital experiences. Whether it's a cinematic reel or a
 
-              complete website, every project is crafted with creativity,
+              complete website, every project is crafted with creativity,
 
-              purpose and attention to detail.
+              purpose and attention to detail.
 
-            </p>
+            </p>
 
-          </div>
+          </div>
 
 
 
-          <div className="about-leaf reveal-right">🌿</div>
+          <div className="about-leaf reveal-right">🌿</div>
 
-        </section>
+        </section>
 
 
 
-        {/* ==============================
+        {/* ==============================
 
-            STATS
+            STATS
 
-        ============================== */}
+        ============================== */}
 
-        <section
+        <section
 
-          className="stats"
+          className="stats"
 
-          ref={(element) => {
+          ref={(element) => {
 
-            this.statsSection = element;
+            this.statsSection = element;
 
-          }}
+          }}
 
-        >
+        >
 
-          <div className="stats-grid">
+          <div className="stats-grid">
 
-            {STATS.map((stat, i) => (
+            {STATS.map((stat, i) => (
 
-              <div
+              <div
 
-                className={`stat-card reveal-scale`}
+                className={`stat-card reveal-scale`}
 
-                key={stat.id}
+                key={stat.id}
 
-                style={{ transitionDelay: `${i * 0.12}s` }}
+                style={{ transitionDelay: `${i * 0.12}s` }}
 
-              >
+              >
 
-                <h3>
+                <h3>
 
-                  {counts[stat.id]}
+                  {counts[stat.id]}
 
-                  <span>{stat.suffix}</span>
+                  <span>{stat.suffix}</span>
 
-                </h3>
+                </h3>
 
-                <p>{stat.label}</p>
+                <p>{stat.label}</p>
 
-              </div>
+              </div>
 
-            ))}
+            ))}
 
-          </div>
+          </div>
 
-        </section>
+        </section>
 
 
 
-        {/* ==============================
+        {/* ==============================
 
-            SERVICES
+            SERVICES
 
-        ============================== */}
+        ============================== */}
 
-        <section className="services" id="services">
+        <section className="services" id="services">
 
-          <div className="section-heading">
+          <div className="section-heading">
 
-            <p className="section-label reveal">what I create</p>
+            <p className="section-label reveal">what I create</p>
 
 
 
-            <h2 className="reveal">
+            <h2 className="reveal">
 
-              From frames to
+              From frames to
 
-              <span> digital spaces.</span>
+              <span> digital spaces.</span>
 
-            </h2>
+            </h2>
 
-          </div>
+          </div>
 
 
 
-          <div className="service-grid">
+          <div className="service-grid">
 
-            <div className="service-card reveal-left">
+            <div className="service-card reveal-left">
 
-              <div className="service-icon">▶</div>
+              <div className="service-icon">▶</div>
 
-              <h3>Video Editing</h3>
+              <h3>Video Editing</h3>
 
-              <p>
+              <p>
 
-                Cinematic edits, reels and engaging short-form videos crafted
+                Cinematic edits, reels and engaging short-form videos crafted
 
-                to bring every moment to life.
+                to bring every moment to life.
 
-              </p>
+              </p>
 
-              <div className="card-line"></div>
+              <div className="card-line"></div>
 
-            </div>
+            </div>
 
 
 
-            <div className="service-card reveal-scale">
+            <div className="service-card reveal-scale">
 
-              <div className="service-icon">◇</div>
+              <div className="service-icon">◇</div>
 
-              <h3>Website Development</h3>
+              <h3>Website Development</h3>
 
-              <p>
+              <p>
 
-                Modern, responsive and creative websites designed to turn
+                Modern, responsive and creative websites designed to turn
 
-                ideas into meaningful digital experiences.
+                ideas into meaningful digital experiences.
 
-              </p>
+              </p>
 
-              <div className="card-line"></div>
+              <div className="card-line"></div>
 
-            </div>
+            </div>
 
 
 
-            <div className="service-card reveal-right">
+            <div className="service-card reveal-right">
 
-              <div className="service-icon">✦</div>
+              <div className="service-icon">✦</div>
 
-              <h3>Visual Stories</h3>
+              <h3>Visual Stories</h3>
 
-              <p>
+              <p>
 
-                Nature, travel and beautiful everyday moments captured
+                Nature, travel and beautiful everyday moments captured
 
-                through a thoughtful creative perspective.
+                through a thoughtful creative perspective.
 
-              </p>
+              </p>
 
-              <div className="card-line"></div>
+              <div className="card-line"></div>
 
-            </div>
+            </div>
 
-          </div>
+          </div>
 
-        </section>
+        </section>
 
 
 
-        {/* ==============================
+        {/* ==============================
 
-            PORTFOLIO
+            PORTFOLIO
 
-        ============================== */}
+        ============================== */}
 
-        <section className="work" id="work">
+        <section className="work" id="work">
 
-          <div className="section-heading">
+          <div className="section-heading">
 
-            <p className="section-label reveal">selected work</p>
+            <p className="section-label reveal">selected work</p>
 
 
 
-            <h2 className="reveal">
+            <h2 className="reveal">
 
-              Stories &<span> digital experiences.</span>
+              Stories &<span> digital experiences.</span>
 
-            </h2>
+            </h2>
 
-          </div>
+          </div>
 
 
 
-          <div className="portfolio-grid">
+          <div className="portfolio-grid">
 
-            {/* VIDEO PROJECT */}
+            {/* VIDEO PROJECT */}
 
-            <div
+            <div
 
-              className="video-project reveal-left"
+              className="video-project reveal-left"
 
-              data-portfolio-label="▶ Play Reel"
+              data-portfolio-label="▶ Play Reel"
 
-            >
+            >
 
-              <div className="film-frame">
+              <div className="film-frame">
 
-                <video
+                <video
 
-                  className="RE"
+                  className="RE"
 
-                  src="https\://res.cloudinary.com/db4faz2rs/video/upload/v1788245248/Task-1_yyfhwg.mp4"
+                  src="https://res.cloudinary.com/db4faz2rs/video/upload/v1788245248/Task-1_yyfhwg.mp4"
 
-                  controls
+                  controls
 
-                  muted
+                  muted
 
-                  loop
+                  loop
 
-                  playsInline
+                  playsInline
 
-                >
+                >
 
-                  Your browser does not support the video tag.
+                  Your browser does not support the video tag.
 
-                </video>
+                </video>
 
-              </div>
+              </div>
 
 
 
-              <div className="video-details">
+              <div className="video-details">
 
-                <p>01 / REEL EDITING</p>
+                <p>01 / REEL EDITING</p>
 
-                <h3>Creative Story</h3>
+                <h3>Creative Story</h3>
 
-              </div>
+              </div>
 
-            </div>
+            </div>
 
 
 
-            {/* WEBSITE PROJECT */}
+            {/* WEBSITE PROJECT */}
 
-            <div
+            <div
 
-              className="video-project reveal-right"
+              className="video-project reveal-right"
 
-              data-portfolio-label="↗ Visit Site"
+              data-portfolio-label="↗ Visit Site"
 
-            >
+            >
 
-              <a
+              <a
 
-                href="https\://www.infiflowtelugu.com"
+                href="https://www.infiflowtelugu.com"
 
-                target="_blank"
+                target="_blank"
 
-                rel="noopener noreferrer"
+                rel="noopener noreferrer"
 
-                className="website-project"
+                className="website-project"
 
-                aria-label="Visit Infiflow Telugu live website"
+                aria-label="Visit Infiflow Telugu live website"
 
-              >
+              >
 
-                <div className="empty-project website-preview">
+                <div className="empty-project website-preview">
 
-                  <div className="browser-bar">
+                  <div className="browser-bar">
 
-                    <span></span>
+                    <span></span>
 
-                    <span></span>
+                    <span></span>
 
-                    <span></span>
+                    <span></span>
 
-                  </div>
+                  </div>
 
 
 
-                  <div className="browser-content">
+                  <div className="browser-content">
 
-                    <p className="live-label">LIVE WEBSITE ↗</p>
+                    <p className="live-label">LIVE WEBSITE ↗</p>
 
-                    <h4>Infiflow Telugu</h4>
+                    <h4>Infiflow Telugu</h4>
 
-                    <p>Designed &amp; Developed</p>
+                    <p>Designed &amp; Developed</p>
 
 
 
-                    <div className="website-lines">
+                    <div className="website-lines">
 
-                      <i></i>
+                      <i></i>
 
-                      <i></i>
+                      <i></i>
 
-                      <i></i>
+                      <i></i>
 
-                    </div>
+                    </div>
 
 
 
-                    <div className="visit-site">
+                    <div className="visit-site">
 
-                      <span>View Live Website</span>
+                      <span>View Live Website</span>
 
-                      <em>→</em>
+                      <em>→</em>
 
-                    </div>
+                    </div>
 
-                  </div>
+                  </div>
 
-                </div>
+                </div>
 
-              </a>
+              </a>
 
 
 
-              <div className="video-details">
+              <div className="video-details">
 
-                <p>02 / WEBSITE DEVELOPMENT</p>
+                <p>02 / WEBSITE DEVELOPMENT</p>
 
-                <h3>Infiflow Telugu</h3>
+                <h3>Infiflow Telugu</h3>
 
-              </div>
+              </div>
 
-            </div>
+            </div>
 
-          </div>
+          </div>
 
-        </section>
+        </section>
 
 
 
-        {/* ==============================
+        {/* ==============================
 
-            CONTACT
+            CONTACT
 
-        ============================== */}
+        ============================== */}
 
-        <section className="contact" id="contact">
+        <section className="contact" id="contact">
 
-          <div className="contact-decoration">❦</div>
+          <div className="contact-decoration">❦</div>
 
 
 
-          <div className="contact-inner">
+          <div className="contact-inner">
 
-            <div className="contact-info">
+            <div className="contact-info">
 
-              <p className="section-label reveal-left">let's create something</p>
+              <p className="section-label reveal-left">let's create something</p>
 
 
 
-              <h2 className="reveal-left">
+              <h2 className="reveal-left">
 
-                Have an idea
+                Have an idea
 
-                <br />
+                <br />
 
-                <span>in mind?</span>
+                <span>in mind?</span>
 
-              </h2>
+              </h2>
 
 
 
-              <p className="contact-text reveal-left">
+              <p className="contact-text reveal-left">
 
-                Whether it's a cinematic video, a creative website, or a
+                Whether it's a cinematic video, a creative website, or a
 
-                visual story — let's turn your idea into something
+                visual story — let's turn your idea into something
 
-                meaningful.
+                meaningful.
 
-              </p>
+              </p>
 
 
 
-              <div className="contact-note reveal-left">
+              <div className="contact-note reveal-left">
 
-                <span>✦</span>
+                <span>✦</span>
 
-                <p>Good stories begin with a conversation.</p>
+                <p>Good stories begin with a conversation.</p>
 
-              </div>
+              </div>
 
-            </div>
+            </div>
 
 
 
-            {/* CONTACT FORM */}
+            {/* CONTACT FORM */}
 
-            <form
+            <form
 
-              className="contact-form reveal-right"
+              className="contact-form reveal-right"
 
-              action="https\://formsubmit.co/evrameshcse2730@gmail.com"
+              action="https://formsubmit.co/evrameshcse2730@gmail.com"
 
-              method="POST"
+              method="POST"
 
-            >
+            >
 
-              <input
+              <input
 
-                type="hidden"
+                type="hidden"
 
-                name="_subject"
+                name="_subject"
 
-                value="New Project Inquiry - Connecting Frames"
+                value="New Project Inquiry - Connecting Frames"
 
-              />
+              />
 
-              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_captcha" value="false" />
 
-              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_template" value="table" />
 
-              <input
+              <input
 
-                type="hidden"
+                type="hidden"
 
-                name="_next"
+                name="_next"
 
-                value="https\://www.infiflowtelugu.com"
+                value="https://connectingframes.in/thanks.html"
 
-              />
+              />
 
+              {/* Honeypot: bots fill this, humans never see it */}
+              <input
+                type="text"
+                name="_honey"
+                tabIndex="-1"
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }}
+              />
 
 
-              <div className="form-group reveal">
 
-                <label htmlFor="name">YOUR NAME</label>
+              <div className="form-group reveal">
 
-                <input
+                <label htmlFor="name">YOUR NAME</label>
 
-                  id="name"
+                <input
 
-                  type="text"
+                  id="name"
 
-                  name="name"
+                  type="text"
 
-                  placeholder="Your name"
+                  name="name"
 
-                  autoComplete="name"
+                  placeholder="Your name"
 
-                  required
+                  autoComplete="name"
 
-                />
+                  required
 
-              </div>
+                />
 
+              </div>
 
 
-              <div className="form-group reveal">
 
-                <label htmlFor="email">EMAIL ADDRESS</label>
+              <div className="form-group reveal">
 
-                <input
+                <label htmlFor="email">EMAIL ADDRESS</label>
 
-                  id="email"
+                <input
 
-                  type="email"
+                  id="email"
 
-                  name="email"
+                  type="email"
 
-                  placeholder="you@example.com"
+                  name="email"
 
-                  autoComplete="email"
+                  placeholder="you@example.com"
 
-                  required
+                  autoComplete="email"
 
-                />
+                  required
 
-              </div>
+                />
 
+              </div>
 
 
-              <div className="form-group reveal">
 
-                <label htmlFor="service">WHAT DO YOU NEED?</label>
+              <div className="form-group reveal">
 
-                <select id="service" name="service" defaultValue="" required>
+                <label htmlFor="service">WHAT DO YOU NEED?</label>
 
-                  <option value="" disabled>
+                <select id="service" name="service" defaultValue="" required>
 
-                    Select a service
+                  <option value="" disabled>
 
-                  </option>
+                    Select a service
 
-                  <option value="Video Editing">Video Editing</option>
+                  </option>
 
-                  <option value="Website Development">
+                  <option value="Video Editing">Video Editing</option>
 
-                    Website Development
+                  <option value="Website Development">
 
-                  </option>
+                    Website Development
 
-                  <option value="Visual Story">Visual Story</option>
+                  </option>
 
-                  <option value="Other">Other</option>
+                  <option value="Visual Story">Visual Story</option>
 
-                </select>
+                  <option value="Other">Other</option>
 
-              </div>
+                </select>
 
+              </div>
 
 
-              <div className="form-group reveal">
 
-                <label htmlFor="message">TELL ME ABOUT YOUR IDEA</label>
+              <div className="form-group reveal">
 
-                <textarea
+                <label htmlFor="message">TELL ME ABOUT YOUR IDEA</label>
 
-                  id="message"
+                <textarea
 
-                  name="message"
+                  id="message"
 
-                  rows="5"
+                  name="message"
 
-                  placeholder="Tell me a little about your project..."
+                  rows="5"
 
-                  required
+                  placeholder="Tell me a little about your project..."
 
-                ></textarea>
+                  required
 
-              </div>
+                ></textarea>
 
+              </div>
 
 
-              <button
 
-                type="submit"
+              <button
 
-                className="contact-submit reveal"
+                type="submit"
 
-                data-magnetic="true"
+                className="contact-submit reveal"
 
-              >
+                data-magnetic="true"
 
-                <span>Send Message</span>
+              >
 
-                <strong>→</strong>
+                <span>Send Message</span>
 
-              </button>
+                <strong>→</strong>
 
+              </button>
 
 
-              <p className="form-small reveal">
 
-                I'll get back to you as soon as possible ♡
+              <p className="form-small reveal">
 
-              </p>
+                I'll get back to you as soon as possible ♡
 
-            </form>
+              </p>
 
-          </div>
+            </form>
 
-        </section>
+          </div>
 
+        </section>
 
 
-        {/* ==============================
 
-            FOOTER
+        {/* ==============================
 
-        ============================== */}
+            FOOTER
 
-        <footer className="reveal">
+        ============================== */}
 
-          <h3>CONNECTING FRAMES</h3>
+        <footer className="reveal">
 
-          <p>Every frame tells a story ♡</p>
+          <h3>CONNECTING FRAMES</h3>
 
-        </footer>
+          <p>Every frame tells a story ♡</p>
 
+        </footer>
 
 
-        {/* ==============================
 
-            BACK TO TOP
+        {/* ==============================
 
-        ============================== */}
+            BACK TO TOP
 
-        <button
+        ============================== */}
 
-          type="button"
+        <button
 
-          className={`back-to-top ${showTopButton ? "is-visible" : ""}`}
+          type="button"
 
-          onClick={this.scrollToTop}
+          className={`back-to-top ${showTopButton ? "is-visible" : ""}`}
 
-          aria-label="Back to top"
+          onClick={this.scrollToTop}
 
-        >
+          aria-label="Back to top"
 
-          <span>🎞</span>
+        >
 
-        </button>
+          <span>🎞</span>
 
-      </div>
+        </button>
 
-    );
+      </div>
 
-  }
+    );
+
+  }
 
 }
 

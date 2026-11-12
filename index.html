@@ -2,22 +2,73 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>Connecting Frames | Video Editor &amp; Web Developer in Telangana</title>
   <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    name="description"
+    content="Connecting Frames — cinematic video editing, reels, colour grading and modern website development based in Telangana. Every frame tells a story."
   />
+  <meta name="author" content="Connecting Frames" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#f4eee2" />
+  <link rel="canonical" href="https://connectingframes.in/" />
 
-  <link
-    rel="icon"
-    type="image/png"
-    href="/my%20logo.png"
+  <!-- Icons -->
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- Open Graph (WhatsApp, Facebook, Instagram, LinkedIn previews) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Connecting Frames" />
+  <meta property="og:title" content="Connecting Frames | Video Editor &amp; Web Developer" />
+  <meta
+    property="og:description"
+    content="Cinematic edits, reels and modern websites from Telangana. Every frame tells a story."
   />
+  <meta property="og:url" content="https://connectingframes.in/" />
+  <meta property="og:image" content="https://connectingframes.in/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Connecting Frames logo — every frame tells a story" />
+  <meta property="og:locale" content="en_IN" />
 
-  <title>Connecting Frames</title>
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Connecting Frames | Video Editor &amp; Web Developer" />
+  <meta
+    name="twitter:description"
+    content="Cinematic edits, reels and modern websites from Telangana. Every frame tells a story."
+  />
+  <meta name="twitter:image" content="https://connectingframes.in/og-image.jpg" />
+
+  <!-- Fonts: connect early so the @import in App.css loads faster -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Structured data for Google -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Connecting Frames",
+      "url": "https://connectingframes.in/",
+      "logo": "https://connectingframes.in/logo.webp",
+      "image": "https://connectingframes.in/og-image.jpg",
+      "description": "Video editing, reel editing, colour grading, motion graphics and website development.",
+      "slogan": "Every frame tells a story",
+      "areaServed": { "@type": "State", "name": "Telangana" },
+      "address": { "@type": "PostalAddress", "addressRegion": "Telangana", "addressCountry": "IN" },
+      "knowsAbout": ["Video Editing", "Reel Editing", "Colour Grading", "Motion Graphics", "Website Development"]
+    }
+  </script>
 </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<body>
+  <div id="root"></div>
+  <noscript>
+    <h1>Connecting Frames</h1>
+    <p>Video editor and web creator based in Telangana. Please enable JavaScript to view this site.</p>
+  </noscript>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
 </html>
