@@ -1,0 +1,438 @@
+.hero {
+  min-height: 90vh;
+
+  padding: 80px 10%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 60px;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.hero-content {
+  max-width: 620px;
+
+  position: relative;
+
+  z-index: 2;
+}
+
+.small-title {
+  font-size: 11px;
+
+  letter-spacing: 3px;
+
+  color: var(--ink-light);
+
+  margin-bottom: 25px;
+}
+
+.hero-title {
+  font-family: "Playfair Display", serif;
+
+  font-size:
+    clamp(60px, 8vw, 110px);
+
+  line-height: 0.9;
+
+  font-weight: 500;
+
+  animation:
+    heroBreathing 6s ease-in-out infinite;
+
+  animation-delay: 1.6s;
+}
+
+@keyframes heroBreathing {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.hero h1 span,
+.hero-title .script {
+  font-family: "Caveat", cursive;
+
+  color: var(--olive);
+
+  font-size: 1.15em;
+}
+
+.split-char {
+  display: inline-block;
+
+  opacity: 0;
+  transform: translateY(60%) rotate(6deg);
+  filter: blur(6px);
+
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.7s ease;
+}
+
+body.is-loaded .split-char {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+  filter: blur(0);
+}
+
+.hand-line {
+  position: relative;
+
+  width: 280px;
+  height: 1px;
+
+  background: var(--ink);
+
+  margin-top: 30px;
+
+  overflow: hidden;
+}
+
+.hand-line::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: var(--paper);
+
+  transform: translateX(0);
+
+  transition:
+    transform 1.4s
+    cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+.hand-line.is-visible::after {
+  transform: translateX(100%);
+}
+
+.handwritten {
+  font-family: "Caveat", cursive;
+
+  font-size: 28px;
+
+  margin-top: 15px;
+
+  letter-spacing: 2px;
+}
+
+.intro {
+  margin-top: 25px;
+
+  max-width: 470px;
+
+  line-height: 1.8;
+
+  color: var(--ink-light);
+}
+
+.sketch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  margin-top: 30px;
+
+  padding: 14px 28px;
+
+  border: 1px solid var(--ink);
+
+  text-decoration: none;
+
+  color: var(--ink);
+
+  font-size: 13px;
+
+  z-index: 1;
+
+  transition:
+    color 0.4s ease,
+    transform 0.15s ease-out;
+}
+
+.sketch-btn em {
+  font-style: normal;
+
+  display: inline-block;
+
+  opacity: 0;
+  transform: translateX(-6px);
+
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sketch-btn:hover em {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.sketch-btn::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: var(--ink);
+
+  transform: translateX(-101%);
+
+  transition:
+    transform 0.45s
+    cubic-bezier(0.22, 1, 0.36, 1);
+
+  z-index: -1;
+}
+
+.sketch-btn:hover {
+  color: var(--paper);
+}
+
+.sketch-btn:hover::before {
+  transform: translateX(0);
+}
+
+.hero-art {
+  width: 430px;
+  height: 430px;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  transform:
+    translateY(var(--scroll-parallax, 0px));
+
+  transition:
+    transform 0.12s linear;
+}
+
+.sketch-circle {
+  width: 330px;
+  height: 330px;
+
+  border-radius: 50%;
+
+  padding: 12px;
+
+  border: 3px double var(--ink);
+
+  transform: rotate(-4deg);
+
+  animation:
+    float 6s ease-in-out infinite;
+
+  box-shadow:
+    0 20px 50px rgba(50, 45, 35, 0.08);
+
+  transition:
+    box-shadow 0.5s ease;
+}
+
+.sketch-circle:hover {
+  box-shadow:
+    0 30px 70px rgba(50, 45, 35, 0.16);
+}
+
+.sketch-circle img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  display: block;
+}
+
+.sun {
+  width: 75px;
+  height: 75px;
+
+  background: var(--brown);
+
+  border-radius: 50%;
+
+  position: absolute;
+
+  top: 30px;
+  right: 35px;
+
+  opacity: 0.8;
+
+  transition:
+    transform 0.3s ease;
+}
+
+.mountain {
+  position: absolute;
+
+  bottom: 40px;
+  left: 15px;
+
+  font-size: 55px;
+
+  letter-spacing: -25px;
+
+  color: var(--ink-light);
+
+  transition:
+    transform 0.35s ease;
+}
+
+.film-strip {
+  position: absolute;
+
+  right: -10px;
+  bottom: 0;
+
+  font-size: 75px;
+
+  transform: rotate(20deg);
+
+  transition:
+    transform 0.35s ease;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform:
+      rotate(-4deg)
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      rotate(-2deg)
+      translateY(-15px);
+  }
+}
+
+.hero-leaves {
+  position: absolute;
+
+  font-size: 80px;
+
+  color: var(--olive);
+
+  opacity: 0.18;
+
+  pointer-events: none;
+
+  animation:
+    leavesFloat 8s ease-in-out infinite;
+}
+
+.left-leaves {
+  left: 3%;
+  top: 20%;
+}
+
+@keyframes leavesFloat {
+  0%,
+  100% {
+    transform:
+      rotate(-8deg)
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      rotate(8deg)
+      translateY(-20px);
+  }
+}
+
+@media (max-width: 800px) {
+  .hero {
+    flex-direction: column;
+
+    text-align: center;
+
+    padding:
+      80px 25px;
+  }
+
+  .hero-content {
+    order: 1;
+  }
+
+  .hero-art {
+    order: 2;
+
+    width: 320px;
+    height: 320px;
+
+    transform: none !important;
+  }
+
+  .sketch-circle {
+    width: 250px;
+    height: 250px;
+  }
+
+  .sun {
+    width: 55px;
+    height: 55px;
+
+    right: 15px;
+  }
+
+  .mountain {
+    left: 0;
+
+    font-size: 42px;
+  }
+
+  .film-strip {
+    right: -5px;
+
+    font-size: 55px;
+  }
+
+  .intro {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hand-line {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .split-char {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}

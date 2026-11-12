@@ -10,7 +10,7 @@ shows a "setup pending" page. Nothing breaks.
    Google Analytics is not needed.
 2. In the project: **Project settings (⚙) → General → Your apps → Web (`</>`)**.
    Register an app (no hosting needed).
-3. Copy the `firebaseConfig` values into [`src/lib/firebaseConfig.js`](src/lib/firebaseConfig.js).
+3. Copy the `firebaseConfig` values into [`src/firebase/firebaseConfig.js`](src/firebase/firebaseConfig.js).
 
 ## 2. Turn on the database
 1. **Build → Firestore Database → Create database**. Pick location `asia-south1 (Mumbai)`,

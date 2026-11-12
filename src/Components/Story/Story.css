@@ -1,0 +1,132 @@
+.story-line {
+  position: relative;
+
+  text-align: center;
+
+  padding: 130px 20px;
+
+  background: var(--paper-dark);
+
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+
+  overflow: hidden;
+}
+
+.story-line::before,
+.story-line::after {
+  content: "";
+
+  position: absolute;
+
+  width: 240px;
+  height: 240px;
+
+  border: 1px solid
+    rgba(57, 54, 48, 0.08);
+
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+.story-line::before {
+  left: -130px;
+  top: 20%;
+
+  animation:
+    orbit 18s linear infinite;
+}
+
+.story-line::after {
+  right: -130px;
+  bottom: 10%;
+
+  animation:
+    orbitReverse 20s linear infinite;
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbitReverse {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0);
+  }
+}
+
+.story-line span {
+  position: relative;
+  z-index: 2;
+
+  font-size: 30px;
+
+  color: var(--brown);
+}
+
+.story-line p {
+  position: relative;
+  z-index: 2;
+
+  font-family: "Caveat", cursive;
+
+  font-size: 30px;
+
+  margin-top: 15px;
+}
+
+.story-line h2 {
+  position: relative;
+  z-index: 2;
+
+  font-family: "Playfair Display", serif;
+
+  font-size:
+    clamp(45px, 6vw, 80px);
+
+  font-weight: 500;
+}
+
+.story-line h2 span {
+  font-family: "Caveat", cursive;
+
+  color: var(--olive);
+}
+
+.camera-icon {
+  position: relative;
+  z-index: 2;
+
+  margin-top: 30px;
+
+  font-size: 40px;
+
+  color: var(--ink-light);
+
+  animation:
+    cameraPulse 3s ease-in-out infinite;
+}
+
+@keyframes cameraPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform:
+      scale(1.15)
+      rotate(5deg);
+  }
+}

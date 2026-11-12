@@ -1,0 +1,22 @@
+.ad-layout {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+.ad-main {
+  padding: 28px 32px 80px;
+  max-width: 860px;
+  width: 100%;
+}
+
+@media (max-width: 760px) {
+  .ad-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ad-main {
+    padding: 20px 16px 80px;
+  }
+}

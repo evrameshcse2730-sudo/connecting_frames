@@ -1,0 +1,73 @@
+.marquee-strip {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 22px 0;
+
+  background: var(--ink);
+
+  border-top: 1px solid rgba(244, 238, 226, 0.15);
+  border-bottom: 1px solid rgba(244, 238, 226, 0.15);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+
+  animation: marqueeScroll 24s linear infinite;
+}
+
+.marquee-strip:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-group {
+  display: flex;
+  align-items: center;
+
+  flex-shrink: 0;
+}
+
+.marquee-group span {
+  font-family: "Caveat", cursive;
+
+  font-size: 30px;
+
+  color: var(--paper);
+
+  padding: 0 18px;
+
+  white-space: nowrap;
+}
+
+.marquee-group .marquee-dot {
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+
+  color: var(--brown);
+
+  padding: 0 4px;
+}
+
+@keyframes marqueeScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 800px) {
+  .marquee-group span {
+    font-size: 22px;
+    padding: 0 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+  }
+}

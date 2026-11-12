@@ -1,0 +1,75 @@
+.ad-item-actions .ad-danger {
+  color: var(--ad-danger);
+}
+
+.ad-list {
+  display: grid;
+  gap: 12px;
+}
+
+.ad-item {
+  background: var(--ad-card);
+  border: 1px solid var(--ad-line);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.ad-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.ad-item-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.ad-item-actions button {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--ad-line);
+  background: #fff;
+  cursor: pointer;
+  color: var(--ad-ink);
+}
+
+.ad-item-actions button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.ad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  column-gap: 14px;
+}
+
+.ad-add {
+  padding: 12px;
+  border: 1.5px dashed var(--ad-line);
+  border-radius: 12px;
+  background: none;
+  cursor: pointer;
+  color: var(--ad-muted);
+  font-weight: 500;
+}
+
+.ad-add:hover {
+  border-color: var(--ad-ink);
+  color: var(--ad-ink);
+}
+
+.ad-preview {
+  width: 100%;
+  max-height: 260px;
+  border-radius: 8px;
+  background: #000;
+}
+
+.ad-link {
+  color: var(--ad-accent);
+  font-weight: 500;
+}

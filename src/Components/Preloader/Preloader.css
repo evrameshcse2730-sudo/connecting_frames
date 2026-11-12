@@ -1,0 +1,93 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+
+  z-index: 100000;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  background: var(--paper);
+
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0.7s;
+}
+
+.preloader-mark {
+  position: relative;
+
+  width: 96px;
+  height: 96px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preloader-mark span {
+  font-family: "Playfair Display", serif;
+  font-size: 26px;
+  color: var(--ink);
+  letter-spacing: 1px;
+}
+
+.preloader-ring {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  transform: rotate(-90deg);
+}
+
+.preloader-ring circle {
+  fill: none;
+  stroke: var(--brown);
+  stroke-width: 2;
+  stroke-linecap: round;
+
+  stroke-dasharray: 327;
+  stroke-dashoffset: 327;
+
+  animation: preloaderDraw 1.3s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes preloaderDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.preloader-text {
+  font-family: "Caveat", cursive;
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: var(--ink-light);
+
+  opacity: 0;
+  animation: preloaderTextIn 0.6s ease 0.5s forwards;
+}
+
+@keyframes preloaderTextIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.preloader-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader {
+    display: none !important;
+  }
+}

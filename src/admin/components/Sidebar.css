@@ -1,0 +1,85 @@
+.ad-side {
+  border-right: 1px solid var(--ad-line);
+  padding: 16px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: sticky;
+  top: 57px;
+  height: calc(100vh - 57px);
+  overflow-y: auto;
+}
+
+.ad-side button,
+.ad-side a {
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--ad-ink);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ad-side button:hover,
+.ad-side a:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.ad-side button.is-active {
+  background: var(--ad-ink);
+  color: var(--ad-bg);
+}
+
+.ad-side-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ad-muted);
+  margin: 14px 12px 4px;
+}
+
+.ad-side-foot {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--ad-line);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ad-side-foot .ad-muted {
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  margin: 0;
+  word-break: break-all;
+}
+
+.ad-badge {
+  background: var(--ad-danger);
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 0 7px;
+  border-radius: 999px;
+  margin-left: auto;
+}
+
+@media (max-width: 760px) {
+  .ad-side {
+    display: none;
+    position: fixed;
+    inset: 57px 0 0 0;
+    height: auto;
+    background: var(--ad-bg);
+    z-index: 9;
+    padding: 16px;
+  }
+
+  .ad-side.is-open {
+    display: flex;
+  }
+}

@@ -1,0 +1,71 @@
+.stats {
+  padding: 90px 10%;
+
+  background: var(--paper);
+}
+
+.stats-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 30px;
+
+  text-align: center;
+}
+
+.stat-card {
+  padding: 40px 20px;
+
+  border: 1px solid var(--line);
+
+  position: relative;
+
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.4s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--olive);
+}
+
+.stat-card h3 {
+  font-family: "Playfair Display", serif;
+
+  font-size: clamp(42px, 5vw, 64px);
+  font-weight: 500;
+
+  color: var(--ink);
+}
+
+.stat-card h3 span {
+  font-family: "Caveat", cursive;
+  color: var(--brown);
+
+  font-size: 0.6em;
+  margin-left: 2px;
+}
+
+.stat-card p {
+  margin-top: 10px;
+
+  font-size: 13px;
+  letter-spacing: 0.5px;
+
+  color: var(--ink-light);
+}
+
+@media (max-width: 800px) {
+  .stats {
+    padding: 70px 25px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}

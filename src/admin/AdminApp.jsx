@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import "./admin.css";
-import { isFirebaseConfigured } from "../lib/firebaseConfig.js";
-import SetupNotice from "./SetupNotice.jsx";
+import "./AdminApp.css";
+import { isFirebaseConfigured } from "../firebase/firebaseConfig.js";
+import SetupNotice from "./pages/Setup/SetupNotice.jsx";
 
 // Firebase SDK is only downloaded once we know it's configured
-const Panel = React.lazy(() => import("./Panel.jsx"));
+const AdminRoot = React.lazy(() => import("./AdminRoot.jsx"));
 
 export default function AdminApp() {
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function AdminApp() {
     <div className="admin">
       {isFirebaseConfigured ? (
         <React.Suspense fallback={<div className="ad-center">Loading…</div>}>
-          <Panel />
+          <AdminRoot />
         </React.Suspense>
       ) : (
         <SetupNotice />

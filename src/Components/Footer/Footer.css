@@ -1,0 +1,58 @@
+footer {
+  padding: 40px 10%;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  background: var(--paper-dark);
+
+  border-top:
+    1px solid var(--line);
+
+  transition:
+    transform 0.4s ease;
+}
+
+footer h3 {
+  font-family: "Caveat", cursive;
+
+  font-size: 25px;
+
+  transition:
+    transform 0.4s ease,
+    letter-spacing 0.4s ease;
+}
+
+footer p {
+  color: var(--ink-light);
+
+  font-family: "Caveat", cursive;
+
+  font-size: 20px;
+
+  transition:
+    transform 0.4s ease;
+}
+
+footer:hover h3 {
+  transform:
+    translateX(8px);
+
+  letter-spacing: 2px;
+}
+
+footer:hover p {
+  transform:
+    translateX(-8px);
+}
+
+@media (max-width: 800px) {
+  footer {
+    flex-direction: column;
+
+    text-align: center;
+
+    gap: 10px;
+  }
+}

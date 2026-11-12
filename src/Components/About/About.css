@@ -1,0 +1,103 @@
+.about {
+  padding: 140px 15%;
+
+  display: flex;
+
+  gap: 70px;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.section-number {
+  font-family: "Caveat", cursive;
+
+  font-size: 90px;
+
+  color: var(--line);
+
+  transition:
+    transform 0.8s ease;
+}
+
+.about:hover .section-number {
+  transform:
+    rotate(-5deg)
+    translateY(-8px);
+}
+
+.about-content {
+  max-width: 700px;
+}
+
+.about h2 {
+  font-family: "Playfair Display", serif;
+
+  font-size:
+    clamp(45px, 6vw, 80px);
+
+  font-weight: 500;
+
+  line-height: 1.05;
+}
+
+.about h2 span {
+  font-family: "Caveat", cursive;
+
+  color: var(--olive);
+}
+
+.about-content > p:last-child {
+  margin-top: 30px;
+
+  max-width: 580px;
+
+  color: var(--ink-light);
+
+  line-height: 1.9;
+}
+
+.about-leaf {
+  position: absolute;
+
+  right: 10%;
+  bottom: 40px;
+
+  font-size: 80px;
+
+  opacity: 0.5;
+
+  animation:
+    leafFloat 6s ease-in-out infinite;
+}
+
+@keyframes leafFloat {
+  0%,
+  100% {
+    transform:
+      rotate(-8deg)
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      rotate(8deg)
+      translateY(-15px);
+  }
+}
+
+@media (max-width: 800px) {
+  .about {
+    flex-direction: column;
+
+    padding:
+      100px 25px;
+
+    gap: 20px;
+  }
+
+  .section-number {
+    font-size: 70px;
+  }
+}

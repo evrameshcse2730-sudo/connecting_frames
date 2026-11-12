@@ -1,0 +1,52 @@
+.ad-top {
+  grid-column: 1 / -1;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  background: var(--ad-card);
+  border-bottom: 1px solid var(--ad-line);
+}
+
+.ad-brand {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.15rem;
+}
+
+.ad-top-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ad-dirty {
+  font-size: 0.85rem;
+  color: var(--ad-brown, #b0834e);
+}
+
+.ad-menu {
+  display: none;
+  background: none;
+  border: 0;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--ad-ink);
+}
+
+@media (max-width: 760px) {
+  .ad-menu {
+    display: block;
+  }
+
+  .ad-top {
+    padding: 10px 16px;
+  }
+
+  .ad-dirty {
+    display: none;
+  }
+}

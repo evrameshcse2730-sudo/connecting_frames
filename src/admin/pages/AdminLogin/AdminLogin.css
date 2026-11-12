@@ -1,0 +1,19 @@
+.ad-login {
+  width: min(380px, 100%);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.ad-login img {
+  margin: 0 auto 8px;
+  border-radius: 50%;
+}
+
+.ad-login .ad-field {
+  text-align: left;
+}
+
+.ad-login .ad-primary {
+  margin-top: 4px;
+}
