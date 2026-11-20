@@ -1,12 +1,25 @@
 import { safeUrl } from "../../utils/safeUrl.js";
 import "./Hero.css";
 
-const SplitText = ({ text, offset, prefix }) =>
-  text.split("").map((char, i) => (
-    <span key={`${prefix}-${i}`} className="split-char" style={{ transitionDelay: `${0.25 + (offset + i) * 0.045}s` }}>
-      {char}
+// Letters animate one by one, but each word stays together (never "Connectin / g")
+const SplitText = ({ text, offset, prefix }) => {
+  let index = offset;
+  return text.split(" ").map((word, w) => (
+    <span key={`${prefix}-w${w}`}>
+      {w > 0 && " "}
+      <span className="title-word">
+        {word.split("").map((char) => {
+          const i = index++;
+          return (
+            <span key={`${prefix}-${i}`} className="split-char" style={{ transitionDelay: `${0.25 + i * 0.045}s` }}>
+              {char}
+            </span>
+          );
+        })}
+      </span>
     </span>
   ));
+};
 
 export default function Hero({ content, heroRef, artRef }) {
   return (
