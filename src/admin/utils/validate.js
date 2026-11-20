@@ -20,6 +20,9 @@ export default function validate(c) {
   if (!/^[^\s/@]+(@[^\s/@]+\.[^\s/@]+)?$/.test(c.contact.formEmail || "")) {
     errors.push("Contact: enter an email address or a FormSubmit alias.");
   }
+  if (c.contact.whatsapp && !/^\d{10,15}$/.test(String(c.contact.whatsapp).replace(/[\s+-]/g, ""))) {
+    errors.push("Contact: WhatsApp number should be digits with country code, e.g. 918639328568.");
+  }
   if (!c.contact.serviceOptions.length) errors.push("Contact: add at least one dropdown option.");
 
   const size = JSON.stringify(c).length;

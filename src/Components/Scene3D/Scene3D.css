@@ -1,0 +1,66 @@
+/* The 3D world sits fixed behind the page */
+.scene3d {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.scene3d.is-ready {
+  opacity: 1;
+}
+
+.scene3d canvas {
+  display: block;
+}
+
+/* ---------- Page adjustments while the 3D world is on ---------- */
+
+body.has-3d .app {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+}
+
+/* Let the world show through the sections */
+body.has-3d .hero,
+body.has-3d .story-line,
+body.has-3d .about,
+body.has-3d .stats,
+body.has-3d .services,
+body.has-3d .work {
+  background: transparent;
+}
+
+/* The 3D hero replaces the flat hero illustration */
+body.has-3d .hero-art {
+  visibility: hidden;
+}
+
+body.has-3d .contact {
+  background: rgba(107, 113, 93, 0.72);
+}
+
+/* Soft paper glow behind text so it stays readable over the scenery */
+body.has-3d .hero-content,
+body.has-3d .story-line > *,
+body.has-3d .about-content,
+body.has-3d .section-heading {
+  text-shadow:
+    0 0 18px rgba(244, 238, 226, 0.95),
+    0 0 6px rgba(244, 238, 226, 0.9);
+}
+
+body.has-3d .stat-card,
+body.has-3d .service-card {
+  background: rgba(244, 238, 226, 0.86);
+}
+
+/* Glass blur only on strong devices (blur is expensive on phones) */
+body.has-3d-high .stat-card,
+body.has-3d-high .service-card {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}

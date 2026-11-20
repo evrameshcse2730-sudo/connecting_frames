@@ -93,6 +93,8 @@ const defaultContent = {
       "Whether it's a cinematic video, a creative website, or a visual story — let's turn your idea into something meaningful.",
     note: "Good stories begin with a conversation.",
     formEmail: "evrameshcse2730@gmail.com",
+    whatsapp: "918639328568",
+    whatsappMessage: "Hi! I saw your website and I'd like to talk about a project.",
     serviceOptions: ["Video Editing", "Website Development", "Visual Story", "Other"],
     smallText: "I'll get back to you as soon as possible ♡",
   },

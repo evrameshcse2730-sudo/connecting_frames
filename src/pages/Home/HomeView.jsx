@@ -14,6 +14,7 @@ import Stats from "../../Components/Stats/Stats.jsx";
 import Contact from "../../Components/Contact/Contact.jsx";
 import Footer from "../../Components/Footer/Footer.jsx";
 import BackToTop from "../../Components/BackToTop/BackToTop.jsx";
+import WhatsAppButton from "../../Components/WhatsApp/WhatsAppButton.jsx";
 
 // Page layout + all scroll/mouse interactions (reveal, parallax, cursor, counters).
 // Each section's markup and styles live in src/Components/<Name>/.
@@ -414,6 +415,7 @@ class HomeView extends Component {
         <Footer content={c.footer} />
 
         <BackToTop visible={showTopButton} />
+        <WhatsAppButton number={c.contact.whatsapp} message={c.contact.whatsappMessage} />
       </div>
     );
   }

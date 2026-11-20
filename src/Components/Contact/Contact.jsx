@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { saveMessage } from "../../firebase/publicApi.js";
+import { whatsappLink } from "../../utils/whatsapp.js";
+import WhatsAppIcon from "../WhatsApp/WhatsAppIcon.jsx";
+import "../WhatsApp/WhatsApp.css";
 import "./Contact.css";
 
 export default function Contact({ content }) {
@@ -23,6 +26,7 @@ export default function Contact({ content }) {
   };
 
   const formEmail = String(content.formEmail).replace(/[^\w.@+-]/g, "");
+  const waHref = whatsappLink(content.whatsapp, content.whatsappMessage);
 
   return (
     <section className="contact" id="contact">
@@ -41,6 +45,15 @@ export default function Contact({ content }) {
             <span>✦</span>
             <p>{content.note}</p>
           </div>
+
+          {waHref && (
+            <a className="contact-whatsapp reveal-left" href={waHref} target="_blank" rel="noopener noreferrer">
+              <WhatsAppIcon size={22} />
+              <span>
+                Chat on WhatsApp <small>· quick reply</small>
+              </span>
+            </a>
+          )}
         </div>
 
         <form

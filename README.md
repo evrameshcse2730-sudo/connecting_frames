@@ -24,6 +24,11 @@ src/
     Navbar/  Hero/  Marquee/  Story/  About/  Stats/
     Services/  Portfolio/  Contact/  Footer/
     Preloader/  Cursor/  BackToTop/
+    Scene3D/             # 3D world behind the page (three.js + React Three Fiber)
+      quality.js         #   decides 3D on/off + quality per device
+      rig.js             #   camera path, film strip path, colours
+      world/             #   camera rig, film strip, dust, FPS guard
+      stations/          #   one 3D scene per section (hero, iris, leaves, reels…)
   content/
     defaultContent.js    # all website text & items (fallback when Firebase is off)
   firebase/
@@ -63,6 +68,13 @@ npm run lint     # oxlint
 | `og-image.jpg` | 1200×630 preview image for WhatsApp / social shares |
 | `logo.webp`, `favicon.png`, `apple-touch-icon.png` | Optimized logo and icons |
 | `thanks.html` | Page shown after the contact form is sent |
+
+## 3D world
+- Loads only after the page is visible, and only on devices that can handle it.
+  Weak devices, "reduce motion", data-saver and 2G/3G visitors get the normal site.
+- Phones get a lighter version (30fps, lower resolution, fewer particles, no video texture).
+- If a device can't keep up, it first lowers resolution, then switches 3D off.
+- The page text stays normal HTML on top, so SEO and the admin panel work as before.
 
 ## Notes
 - To change a section's look, edit `src/Components/<Name>/<Name>.css`. Its mobile rules are

@@ -112,6 +112,8 @@ const sections = [
       ["text", "Text", "textarea"],
       ["note", "Note"],
       ["formEmail", "Email / FormSubmit alias that receives enquiries"],
+      ["whatsapp", "WhatsApp number with country code (e.g. 918639328568)"],
+      ["whatsappMessage", "WhatsApp pre-filled message", "textarea"],
       ["smallText", "Small text under the button"],
     ],
     list: {
