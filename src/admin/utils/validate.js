@@ -23,6 +23,9 @@ export default function validate(c) {
   if (c.contact.whatsapp && !/^\d{10,15}$/.test(String(c.contact.whatsapp).replace(/[\s+-]/g, ""))) {
     errors.push("Contact: WhatsApp number should be digits with country code, e.g. 918639328568.");
   }
+  if (c.footer.instagram && !/^https:\/\/(www\.)?instagram\.com\/[\w.]+\/?$/i.test(c.footer.instagram)) {
+    errors.push("Footer: Instagram link should look like https://www.instagram.com/yourname/.");
+  }
   if (!c.contact.serviceOptions.length) errors.push("Contact: add at least one dropdown option.");
 
   const size = JSON.stringify(c).length;

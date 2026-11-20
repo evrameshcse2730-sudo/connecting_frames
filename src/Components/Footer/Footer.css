@@ -56,3 +56,43 @@ footer:hover p {
     gap: 10px;
   }
 }
+
+/* Instagram link */
+.footer-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: center;
+
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.footer-social:hover,
+.footer-social:focus-visible {
+  background: linear-gradient(45deg, #f9ce34, #ee2a7b 55%, #6228d7);
+  border-color: transparent;
+  color: #fff;
+}
+
+.footer-social:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+@media (max-width: 800px) {
+  .footer-social {
+    order: 3;
+  }
+}

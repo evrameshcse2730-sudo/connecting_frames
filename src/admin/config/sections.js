@@ -129,6 +129,7 @@ const sections = [
     fields: [
       ["title", "Title"],
       ["text", "Text"],
+      ["instagram", "Instagram profile link (https://www.instagram.com/…)", "url"],
     ],
   },
 ];

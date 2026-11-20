@@ -412,7 +412,7 @@ class HomeView extends Component {
         <Stats stats={c.stats} counts={counts} sectionRef={(el) => { this.statsSection = el; }} />
         <Services content={c.services} />
         <Portfolio content={c.work} />
-        <Contact content={c.contact} />
+        <Contact content={c.contact} instagram={c.footer.instagram} />
         <Footer content={c.footer} />
 
         <BackToTop visible={showTopButton} />

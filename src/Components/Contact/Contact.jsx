@@ -2,10 +2,12 @@ import { useState } from "react";
 import { saveMessage } from "../../firebase/publicApi.js";
 import { whatsappLink } from "../../utils/whatsapp.js";
 import WhatsAppIcon from "../WhatsApp/WhatsAppIcon.jsx";
+import InstagramIcon from "../Social/InstagramIcon.jsx";
+import { instagramProfile } from "../../utils/social.js";
 import "../WhatsApp/WhatsApp.css";
 import "./Contact.css";
 
-export default function Contact({ content }) {
+export default function Contact({ content, instagram }) {
   const [sending, setSending] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -27,6 +29,7 @@ export default function Contact({ content }) {
 
   const formEmail = String(content.formEmail).replace(/[^\w.@+-]/g, "");
   const waHref = whatsappLink(content.whatsapp, content.whatsappMessage);
+  const insta = instagramProfile(instagram);
 
   return (
     <section className="contact" id="contact">
@@ -52,6 +55,13 @@ export default function Contact({ content }) {
               <span>
                 Chat on WhatsApp <small>· quick reply</small>
               </span>
+            </a>
+          )}
+
+          {insta && (
+            <a className="contact-instagram reveal-left" href={insta.href} target="_blank" rel="noopener noreferrer">
+              <InstagramIcon size={18} />
+              <span>Follow {insta.handle}</span>
             </a>
           )}
         </div>

@@ -102,6 +102,7 @@ const defaultContent = {
   footer: {
     title: "CONNECTING FRAMES",
     text: "Every frame tells a story ♡",
+    instagram: "https://www.instagram.com/connecting_frames888/",
   },
 };
 
