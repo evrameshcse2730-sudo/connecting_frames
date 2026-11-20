@@ -36,7 +36,7 @@ service cloud.firestore {
         && request.resource.data.keys().hasAll(['name', 'email', 'service', 'message', 'read', 'createdAt'])
         && str(request.resource.data.name, 1, 100)
         && str(request.resource.data.email, 3, 200)
-        && str(request.resource.data.service, 0, 100)
+        && str(request.resource.data['service'], 0, 100)
         && str(request.resource.data.message, 1, 5000)
         && request.resource.data.read == false
         && request.resource.data.createdAt is timestamp
