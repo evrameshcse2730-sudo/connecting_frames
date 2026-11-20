@@ -25,7 +25,8 @@ class HomeView extends Component {
     this.state = {
       isLoaded: false,
       showTopButton: false,
-      counts: props.content.stats.map(() => 0),
+      // Prerendered HTML (for search engines) shows the final numbers; the browser counts up from 0
+      counts: props.content.stats.map((s) => (props.prerender ? Number(s.value) || 0 : 0)),
     };
 
     this.cursorDot = React.createRef();
